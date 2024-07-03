@@ -1,0 +1,71 @@
+version: '3.7'
+
+services:
+  api:
+    image: snap-words-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    command: npm run start:dev
+    container_name: api
+    tty: true
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/app
+      - ~/.bash_history:/root/.bash_history
+    depends_on:
+      - mongo-db
+
+  mongo-db:
+    image: mongo:4.0.2
+    restart: always
+    ports:
+      - '27017:27017'
+    env_file:
+      - ./.env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    volumes:
+      - ./mongo:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo portabl-db:27017 --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+#  s3:
+#    image: adobe/s3mock:3.1.0
+#    environment:
+#      - validKmsKeys=valid-test-key-id
+#      - initialBuckets=photo
+#      - root=/s3Files
+#      - debug=true
+#    ports:
+#      - "9090:9090"
+
+#  s3:
+#    image: apachepulsar/s3mock
+#    environment:
+#      - validKmsKeys=valid-test-key-id
+#      - initialBuckets=photo
+#      - root=/s3Files
+#      - debug=true
+#    ports:
+#      - "9090:9090"
+
+#  ngrok:
+#    image: wernight/ngrok:armhf
+#    ports:
+#      - "4040:4040"
+#    env_file:
+#      - ./.env
+#    depends_on:
+#      - api
+
+networks:
+  default:
+    name: docker-network
