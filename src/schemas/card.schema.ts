@@ -6,7 +6,7 @@ export type CardDocument = ICardEntity & Document;
 
 export interface ICardEntity {
   readonly _id: string;
-  readonly source: string;
+  readonly original: string;
   readonly translation: string;
 }
 
@@ -26,7 +26,7 @@ export class CardEntity implements ICardEntity {
   readonly _id: string;
 
   @Prop({ type: String, required: true })
-  readonly source: string;
+  readonly original: string;
 
   @Prop({ type: String, required: true })
   readonly translation: string;
