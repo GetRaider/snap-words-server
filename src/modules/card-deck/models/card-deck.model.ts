@@ -1,10 +1,10 @@
-import { IsArray, IsString } from "class-validator";
-import { ICardModel } from "@modules/card/models/card.model";
+import { IsArray, IsOptional, IsString } from "class-validator";
+import { ICardModel } from "@modules/card-deck/models/card.model";
 
 export interface ICardDeckModel {
   readonly id: string;
   readonly title: string;
-  readonly cards: ICardModel[];
+  readonly cards?: ICardModel[];
 }
 
 export class CardDeckModel implements ICardDeckModel {
@@ -15,5 +15,6 @@ export class CardDeckModel implements ICardDeckModel {
   readonly title: string;
 
   @IsArray()
-  readonly cards: ICardModel[];
+  @IsOptional()
+  readonly cards?: ICardModel[];
 }

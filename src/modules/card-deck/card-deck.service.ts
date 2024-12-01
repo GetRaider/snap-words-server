@@ -22,6 +22,12 @@ import {
   CardDeckModel,
   ICardDeckModel,
 } from "@modules/card-deck/models/card-deck.model";
+import { UserModel } from "@modules/user/models/user.model";
+import { IUserModel } from "@interfaces/models/user.model";
+import {
+  UpdateCardDeckRequestDto,
+  UpdateCardDeckResponseDto,
+} from "@modules/card-deck/dto/update-card-deck.dto";
 
 @Injectable()
 export class CardDeckService {
@@ -34,18 +40,19 @@ export class CardDeckService {
   async create(
     dto: CreateCardDeckRequestDto,
   ): Promise<CreateCardDeckResponseDto> {
-    const { title } = dto;
+    const { title, cards = [] } = dto;
 
     if (await this.isAlreadyExistByName(title)) {
       throw new HttpException(
-        `Card deck with ${title} title already exist`,
-        HttpStatus.BAD_REQUEST,
+        `Card deck with the '${title}' title already exist`,
+        HttpStatus.CONFLICT,
       );
     }
 
     const newDocument = new this.cardDeckModel<ICardDeckEntity>({
       _id: randomUUID(),
       title,
+      cards,
     });
 
     const savedDocument = await newDocument.save();
@@ -55,6 +62,26 @@ export class CardDeckService {
       cardDeck: plainToInstance(
         CardDeckModel,
         savedDocument.toJSON<ICardDeckModel>(),
+      ),
+    };
+  }
+
+  async updateById(
+    id: string,
+    dto: UpdateCardDeckRequestDto,
+  ): Promise<UpdateCardDeckResponseDto> {
+    const updatedCardDeck = await this.cardDeckModel.findByIdAndUpdate(
+      id,
+      dto,
+      {
+        new: true,
+      },
+    );
+
+    return {
+      cardDeck: plainToInstance(
+        CardDeckModel,
+        updatedCardDeck.toJSON<ICardDeckModel>(),
       ),
     };
   }

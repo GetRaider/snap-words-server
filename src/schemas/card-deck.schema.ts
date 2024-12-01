@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
-import { ICardModel } from "@modules/card/models/card.model";
+import { CardModel, ICardModel } from "@modules/card-deck/models/card.model";
 
 export type CardDeckDocument = ICardDeckEntity & Document;
 
@@ -29,7 +29,16 @@ export class CardDeckEntity implements ICardDeckEntity {
   @Prop({ type: String, required: true })
   readonly title: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({
+    type: Array<CardModel>,
+    required: false,
+    default: [],
+    set: (cards: ICardModel[]) =>
+      cards.map((card) => ({
+        _id: uuidv4(),
+        ...card,
+      })),
+  })
   readonly cards?: ICardModel[];
 }
 

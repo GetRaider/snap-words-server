@@ -10,7 +10,6 @@ import { HttpExceptionFilter } from "@helpers/httpExceptionFilter.helper";
 import { S3OwnModule } from "@modules/s3/s3.module";
 import { configHelper } from "@helpers/config.helper";
 import { CardDeckModule } from "@modules/card-deck/card-deck.module";
-import { CardModule } from "@modules/card/card.module";
 
 @Module({
   imports: [
@@ -33,7 +32,6 @@ import { CardModule } from "@modules/card/card.module";
     UserModule,
     RoleModule,
     CardDeckModule,
-    CardModule,
     S3OwnModule,
   ],
   providers: [{ provide: APP_FILTER, useClass: HttpExceptionFilter }, Logger],
