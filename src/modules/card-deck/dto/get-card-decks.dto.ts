@@ -2,10 +2,7 @@ import { IsArray, IsObject, IsOptional, ValidateNested } from "class-validator";
 import { Transform, Type } from "class-transformer";
 
 import { propertyHelper } from "@helpers/property.helper";
-import {
-  CardDeckModel,
-  ICardDeckModel,
-} from "@modules/card-deck/models/card-deck.model";
+import { CardDeckModel, ICardDeckModel } from "@models/card-deck.model";
 
 interface IGetCardDeckArgs {
   readonly id?: Array<string>;

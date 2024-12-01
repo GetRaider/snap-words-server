@@ -6,16 +6,17 @@ import {
   IsString,
   ValidateNested,
 } from "class-validator";
-import {Type} from "class-transformer";
+import { Type } from "class-transformer";
 
-import {UserModel} from "@modules/user/models/user.model";
-import {IUserModel} from "@interfaces/models/user.model";
-import {
-  IUpdateUserArgs,
-  IUpdateUserResult,
-} from "@interfaces/dto/user/update-user.dto";
+import { UserModel, IUserModel } from "@models/user.model";
 
-export class UpdateUserRequestDto implements IUpdateUserArgs {
+export interface IUpdateUserRequestDto {
+  readonly login: string;
+  readonly name?: string;
+  readonly age?: number;
+}
+
+export class UpdateUserRequestDto implements IUpdateUserRequestDto {
   @IsString()
   @IsNotEmpty()
   readonly login: string;
@@ -30,7 +31,11 @@ export class UpdateUserRequestDto implements IUpdateUserArgs {
   readonly age?: number;
 }
 
-export class UpdateUserResponseDto implements IUpdateUserResult {
+export interface IUpdateUserResponseDto {
+  readonly user: IUserModel;
+}
+
+export class UpdateUserResponseDto implements IUpdateUserResponseDto {
   @IsObject()
   @Type(() => UserModel)
   @ValidateNested()

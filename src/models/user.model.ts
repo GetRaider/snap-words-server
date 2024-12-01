@@ -1,6 +1,14 @@
-import {IsArray, IsOptional, IsString} from "class-validator";
-import {IUserModel} from "@interfaces/models/user.model";
-import {IRoleModel} from "@interfaces/models/role.model";
+import { IsArray, IsOptional, IsString } from "class-validator";
+import { IRoleModel } from "./role.model";
+
+export interface IUserModel {
+  readonly id: string;
+  readonly login: string;
+  readonly password: string;
+  readonly roles: Array<IRoleModel>;
+  readonly name?: string;
+  readonly age?: number;
+}
 
 export class UserModel implements IUserModel {
   @IsString()

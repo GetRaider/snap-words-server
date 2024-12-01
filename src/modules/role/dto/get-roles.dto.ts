@@ -1,16 +1,17 @@
-import {IsArray, IsObject, IsOptional, ValidateNested} from "class-validator";
-import {Transform, Type} from "class-transformer";
+import { IsArray, IsObject, IsOptional, ValidateNested } from "class-validator";
+import { Transform, Type } from "class-transformer";
 
-import {propertyHelper} from "../../../helpers/property.helper";
-import {
-  IGetRolesArgs,
-  IGetRolesResult,
-} from "@interfaces/dto/role/get-roles.dto";
-import {RoleModel} from "@modules/role/models/role.model";
-import {IRoleModel} from "@interfaces/models/role.model";
-import {Role} from "@interfaces/enums/roles.enums";
+import { propertyHelper } from "@helpers/property.helper";
+import { RoleModel, IRoleModel } from "@models/index";
+import { Role } from "@constants/roles.constants";
 
-export class GetRolesRequestDto implements IGetRolesArgs {
+export interface IGetRolesRequestDto {
+  readonly id?: Array<string>;
+  readonly value?: Array<string>;
+  readonly description?: Array<string>;
+}
+
+export class GetRolesRequestDto implements IGetRolesRequestDto {
   @Transform(propertyHelper.transformValueToArray)
   @IsOptional()
   @IsArray()
@@ -27,7 +28,11 @@ export class GetRolesRequestDto implements IGetRolesArgs {
   readonly description?: Array<string>;
 }
 
-export class GetRolesResponseDto implements IGetRolesResult {
+export interface IGetRolesResponseDto {
+  readonly roles: Array<IRoleModel>;
+}
+
+export class GetRolesResponseDto implements IGetRolesResponseDto {
   @IsObject()
   @Type(() => RoleModel)
   @ValidateNested()

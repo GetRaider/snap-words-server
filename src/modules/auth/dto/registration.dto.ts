@@ -1,14 +1,20 @@
 import {
-  IRegistrationArgs,
-  IRegistrationResult,
-} from "@interfaces/dto/auth/registration.dto";
-import {CreateUserRequestDto} from "@modules/user/dto/create-user.dto";
-import {GetTokenResponseDto} from "@modules/auth/dto/get-token.dto";
+  CreateUserRequestDto,
+  ICreateUserRequestDto,
+} from "@modules/user/dto/create-user.dto";
+import {
+  GetTokenResponseDto,
+  IGetTokenResponseDto,
+} from "@modules/auth/dto/get-token.dto";
+
+export interface IRegistrationRequestDto extends ICreateUserRequestDto {}
 
 export class RegistrationRequestDto
   extends CreateUserRequestDto
-  implements IRegistrationArgs {}
+  implements IRegistrationRequestDto {}
+
+export interface IRegistrationResponseDto extends IGetTokenResponseDto {}
 
 export class RegistrationResponseDto
   extends GetTokenResponseDto
-  implements IRegistrationResult {}
+  implements IRegistrationResponseDto {}

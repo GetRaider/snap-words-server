@@ -1,19 +1,23 @@
-import {IsObject, IsString, ValidateNested} from "class-validator";
-import {
-  IGetUserByLoginArgs,
-  IGetUserByLoginResult,
-} from "@interfaces/dto/user/get-user-by-login.dto";
-import {Type} from "class-transformer";
-import {UserModel} from "@modules/user/models/user.model";
-import {IUserModel} from "@interfaces/models/user.model";
+import { IsObject, IsString, ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
 
-export class GetUserByLoginRequestDto implements IGetUserByLoginArgs {
+import { UserModel, IUserModel } from "@models/index";
+
+export interface IGetUserByLoginRequestDto {
+  readonly login: string;
+}
+
+export class GetUserByLoginRequestDto implements IGetUserByLoginRequestDto {
   @IsString()
   readonly login: string;
 }
 
+export interface IGetUserByLoginResponseDto {
+  readonly user: IUserModel;
+}
+
 // todo: Add dto for this call
-export class GetUserByLoginResponseDto implements IGetUserByLoginResult {
+export class GetUserByLoginResponseDto implements IGetUserByLoginResponseDto {
   @IsObject()
   @Type(() => UserModel)
   @ValidateNested()

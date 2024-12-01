@@ -1,16 +1,15 @@
-import {Injectable, Logger} from "@nestjs/common";
-import {randomUUID} from "crypto";
-import {plainToInstance} from "class-transformer";
-import {InjectModel} from "@nestjs/mongoose";
-import {FilterQuery, Model} from "mongoose";
+import { Injectable, Logger } from "@nestjs/common";
+import { randomUUID } from "crypto";
+import { plainToInstance } from "class-transformer";
+import { InjectModel } from "@nestjs/mongoose";
+import { FilterQuery, Model } from "mongoose";
 
-import {IRoleEntity, RoleDocument, RoleEntity} from "../../schemas/role.schema";
+import { IRoleEntity, RoleDocument, RoleEntity } from "@schemas/role.schema";
 import {
   CreateRoleRequestDto,
   CreateRoleResponseDto,
 } from "@modules/role/dto/create-role.dto";
-import {RoleModel} from "@modules/role/models/role.model";
-import {IRoleModel} from "@interfaces/models/role.model";
+import { RoleModel, IRoleModel } from "@models/index";
 import {
   GetRolesRequestDto,
   GetRolesResponseDto,
@@ -29,7 +28,7 @@ export class RoleService {
   ) {}
 
   async create(dto: CreateRoleRequestDto): Promise<CreateRoleResponseDto> {
-    const {value, description} = dto;
+    const { value, description } = dto;
     const newRole = new this.roleModel<IRoleEntity>({
       _id: randomUUID(),
       value,
@@ -37,17 +36,17 @@ export class RoleService {
     });
     const savedRole = await newRole.save();
     this.logger.warn(`Following role has been saved: ${savedRole}`);
-    return {role: plainToInstance(RoleModel, savedRole.toJSON<IRoleModel>())};
+    return { role: plainToInstance(RoleModel, savedRole.toJSON<IRoleModel>()) };
   }
 
   async getByQuery(
     query: GetRolesRequestDto = {},
   ): Promise<GetRolesResponseDto> {
-    const {id: idArr, value: valueArr, description: descriptionArr} = query;
+    const { id: idArr, value: valueArr, description: descriptionArr } = query;
     const filterQuery: FilterQuery<IRoleModel> = {
-      ...(idArr ? {_id: {$in: idArr}} : {}),
-      ...(valueArr ? {value: {$in: valueArr}} : {}),
-      ...(descriptionArr ? {description: {$in: descriptionArr}} : {}),
+      ...(idArr ? { _id: { $in: idArr } } : {}),
+      ...(valueArr ? { value: { $in: valueArr } } : {}),
+      ...(descriptionArr ? { description: { $in: descriptionArr } } : {}),
     };
     const foundRoles = await this.roleModel.find(filterQuery);
 

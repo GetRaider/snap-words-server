@@ -5,17 +5,17 @@ import {
   IsString,
   ValidateNested,
 } from "class-validator";
-import {Type} from "class-transformer";
+import { Type } from "class-transformer";
 
-import {UserModel} from "@modules/user/models/user.model";
-import {
-  IUpdateRoleArgs,
-  IUpdateRoleResult,
-} from "@interfaces/dto/role/update-role.dto";
-import {IRoleModel} from "@interfaces/models/role.model";
-import {Role} from "@interfaces/enums/roles.enums";
+import { IRoleModel, UserModel } from "@models/index";
+import { Role } from "@constants/roles.constants";
 
-export class UpdateRoleRequestDto implements IUpdateRoleArgs {
+export interface IUpdateRoleRequestDto {
+  readonly value?: string;
+  readonly description?: string;
+}
+
+export class UpdateRoleRequestDto implements IUpdateRoleRequestDto {
   @IsString()
   @IsOptional()
   readonly value?: Role;
@@ -25,7 +25,11 @@ export class UpdateRoleRequestDto implements IUpdateRoleArgs {
   readonly description?: string;
 }
 
-export class UpdateRoleResponseDto implements IUpdateRoleResult {
+export interface IUpdateRoleResponseDto {
+  readonly role: IRoleModel;
+}
+
+export class UpdateRoleResponseDto implements IUpdateRoleResponseDto {
   @IsObject()
   @Type(() => UserModel)
   @ValidateNested()

@@ -1,10 +1,7 @@
 import { IsArray, IsObject, IsString, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
-import {
-  CardDeckModel,
-  ICardDeckModel,
-} from "@modules/card-deck/models/card-deck.model";
-import { ICardModel } from "@modules/card-deck/models/card.model";
+
+import { CardDeckModel, ICardDeckModel, ICardModel } from "@models/index";
 
 interface ICreateCardDeckArgs {
   readonly title: string;

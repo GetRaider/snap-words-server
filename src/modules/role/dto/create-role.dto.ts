@@ -1,15 +1,20 @@
-import {IsObject, IsOptional, IsString, ValidateNested} from "class-validator";
-import {Type} from "class-transformer";
-
 import {
-  ICreateRoleArgs,
-  ICreateRoleResult,
-} from "@interfaces/dto/role/create-role.dto";
-import {RoleModel} from "@modules/role/models/role.model";
-import {IRoleModel} from "@interfaces/models/role.model";
-import {Role} from "@interfaces/enums/roles.enums";
+  IsObject,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from "class-validator";
+import { Type } from "class-transformer";
 
-export class CreateRoleRequestDto implements ICreateRoleArgs {
+import { RoleModel, IRoleModel } from "@models/index";
+import { Role } from "@constants/roles.constants";
+
+export interface ICreateRoleRequestDto {
+  readonly value?: Role;
+  readonly description?: string;
+}
+
+export class CreateRoleRequestDto implements ICreateRoleRequestDto {
   @IsString()
   readonly value?: Role;
 
@@ -18,7 +23,11 @@ export class CreateRoleRequestDto implements ICreateRoleArgs {
   readonly description?: string;
 }
 
-export class CreateRoleResponseDto implements ICreateRoleResult {
+export interface ICreateRoleResponseDto {
+  readonly role: IRoleModel;
+}
+
+export class CreateRoleResponseDto implements ICreateRoleResponseDto {
   @IsObject()
   @Type(() => RoleModel)
   @ValidateNested()
