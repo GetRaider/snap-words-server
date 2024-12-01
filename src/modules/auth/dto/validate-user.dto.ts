@@ -1,20 +1,25 @@
-import {IsObject, IsString, ValidateNested} from "class-validator";
-import {
-  IValidateUserArgs,
-  IValidateUserResult,
-} from "@interfaces/dto/auth/validate-user.dto";
-import {IUserModel} from "@interfaces/models/user.model";
-import {Type} from "class-transformer";
-import {UserModel} from "@modules/user/models/user.model";
+import { IsObject, IsString, ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
 
-export class ValidateUserRequestDto implements IValidateUserArgs {
+import { UserModel, IUserModel } from "@models/index";
+
+export interface IValidateUserRequestDto {
+  readonly login: string;
+  readonly password: string;
+}
+
+export class ValidateUserRequestDto implements IValidateUserRequestDto {
   @IsString()
   readonly login: string;
   @IsString()
   readonly password: string;
 }
 
-export class ValidateUserResponseDto implements IValidateUserResult {
+export interface IValidateUserResponseDto {
+  readonly user: IUserModel;
+}
+
+export class ValidateUserResponseDto implements IValidateUserResponseDto {
   @IsObject()
   @Type(() => UserModel)
   @ValidateNested()

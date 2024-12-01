@@ -6,11 +6,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 
-import { ICardModel } from "@modules/card-deck/models/card.model";
-import {
-  CardDeckModel,
-  ICardDeckModel,
-} from "@modules/card-deck/models/card-deck.model";
+import { ICardModel, CardDeckModel, ICardDeckModel } from "@models/index";
 
 interface IUpdateCardDeckArgs {
   readonly title?: string;

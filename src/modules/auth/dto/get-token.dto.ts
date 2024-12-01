@@ -1,14 +1,15 @@
-import {IsArray, IsObject, IsString, ValidateNested} from "class-validator";
-import {
-  IGetTokenArgs,
-  IGetTokenResult,
-} from "@interfaces/dto/auth/get-token.dto";
-import {Type} from "class-transformer";
-import {AuthModel} from "@modules/auth/models/auth.model";
-import {IAuthModel} from "@interfaces/models/auth.model";
-import {IRoleModel} from "@interfaces/models/role.model";
+import { IsArray, IsObject, IsString, ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
 
-export class GetTokenRequestDto implements IGetTokenArgs {
+import { IRoleModel, AuthModel, IAuthModel } from "@models/index";
+
+export interface IGetTokenRequestDto {
+  readonly id: string;
+  readonly login: string;
+  readonly password: string;
+}
+
+export class GetTokenRequestDto implements IGetTokenRequestDto {
   @IsString()
   readonly id: string;
   @IsString()
@@ -19,7 +20,11 @@ export class GetTokenRequestDto implements IGetTokenArgs {
   readonly roles: Array<IRoleModel>;
 }
 
-export class GetTokenResponseDto implements IGetTokenResult {
+export interface IGetTokenResponseDto {
+  readonly token: IAuthModel;
+}
+
+export class GetTokenResponseDto implements IGetTokenResponseDto {
   @IsObject()
   @Type(() => AuthModel)
   @ValidateNested()

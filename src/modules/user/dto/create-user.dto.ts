@@ -1,15 +1,21 @@
-import {IsObject, IsOptional, IsString, ValidateNested} from "class-validator";
-import {Type} from "class-transformer";
-
-import {UserModel} from "@modules/user/models/user.model";
-import {IUserModel} from "@interfaces/models/user.model";
 import {
-  ICreateUserArgs,
-  ICreateUserResult,
-} from "@interfaces/dto/user/create-user.dto";
-import {RoleModel} from "@modules/role/models/role.model";
+  IsObject,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from "class-validator";
+import { Type } from "class-transformer";
 
-export class CreateUserRequestDto implements ICreateUserArgs {
+import { UserModel, RoleModel, IUserModel } from "@models/index";
+
+export interface ICreateUserRequestDto {
+  readonly login: string;
+  readonly password: string;
+  readonly name?: string;
+  readonly age?: number;
+}
+
+export class CreateUserRequestDto implements ICreateUserRequestDto {
   @IsString()
   readonly login: string;
 
@@ -27,7 +33,11 @@ export class CreateUserRequestDto implements ICreateUserArgs {
   readonly age?: number;
 }
 
-export class CreateUserResponseDto implements ICreateUserResult {
+export interface ICreateUserResponseDto {
+  readonly user: IUserModel;
+}
+
+export class CreateUserResponseDto implements ICreateUserResponseDto {
   @IsObject()
   @Type(() => UserModel)
   @ValidateNested()

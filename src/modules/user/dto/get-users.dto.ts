@@ -1,16 +1,18 @@
-import {IsArray, IsObject, IsOptional, ValidateNested} from "class-validator";
-import {Transform, Type} from "class-transformer";
+import { IsArray, IsObject, IsOptional, ValidateNested } from "class-validator";
+import { Transform, Type } from "class-transformer";
 
-import {UserModel} from "@modules/user/models/user.model";
-import {IUserModel} from "@interfaces/models/user.model";
-import {propertyHelper} from "../../../helpers/property.helper";
-import {
-  IGetUsersArgs,
-  IGetUsersResult,
-} from "@interfaces/dto/user/get-users.dto";
-import {IRoleModel} from "@interfaces/models/role.model";
+import { UserModel, IRoleModel, IUserModel } from "@models/index";
+import { propertyHelper } from "@helpers/property.helper";
 
-export class GetUsersRequestDto implements IGetUsersArgs {
+export interface IGetUsersRequestDto {
+  readonly id?: Array<string>;
+  readonly login?: Array<string>;
+  readonly roles?: Array<IRoleModel>;
+  readonly name?: Array<string>;
+  readonly age?: Array<number>;
+}
+
+export class GetUsersRequestDto implements IGetUsersRequestDto {
   @Transform(propertyHelper.transformValueToArray)
   @IsOptional()
   @IsArray()
@@ -36,7 +38,11 @@ export class GetUsersRequestDto implements IGetUsersArgs {
   readonly roles?: Array<IRoleModel>;
 }
 
-export class GetUsersResponseDto implements IGetUsersResult {
+export interface IGetUsersResponseDto {
+  readonly users: Array<IUserModel>;
+}
+
+export class GetUsersResponseDto implements IGetUsersResponseDto {
   @IsObject()
   @Type(() => UserModel)
   @ValidateNested()
