@@ -4,9 +4,9 @@ import {
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
-import {UserService} from "@modules/user/user.service";
+import { UserService } from "@modules/user/user.service";
 import bcryptjs from "bcryptjs";
-import {JwtService} from "@nestjs/jwt";
+import { JwtService } from "@nestjs/jwt";
 
 import {
   GetTokenRequestDto,
@@ -24,11 +24,10 @@ import {
   RegistrationRequestDto,
   RegistrationResponseDto,
 } from "@modules/auth/dto/registration.dto";
-import {plainToInstance} from "class-transformer";
-import {LoginRequestDto, LoginResponseDto} from "@modules/auth/dto/login.dto";
-import {AuthModel} from "@modules/auth/models/auth.model";
-import {UserModel} from "@modules/user/models/user.model";
-import * as console from "console";
+import { plainToInstance } from "class-transformer";
+import { LoginRequestDto, LoginResponseDto } from "@modules/auth/dto/login.dto";
+import { AuthModel } from "@modules/auth/models/auth.model";
+import { UserModel } from "@modules/user/models/user.model";
 
 @Injectable()
 export class AuthService {
@@ -40,8 +39,8 @@ export class AuthService {
   async registration(
     dto: RegistrationRequestDto,
   ): Promise<RegistrationResponseDto> {
-    const {login, password} = dto;
-    const foundDocument = await this.userService.getOneByLogin({login});
+    const { login, password } = dto;
+    const foundDocument = await this.userService.getOneByLogin({ login });
 
     if (foundDocument.user) {
       throw new HttpException(
@@ -50,7 +49,7 @@ export class AuthService {
       );
     }
 
-    const {user} = await this.userService.create({
+    const { user } = await this.userService.create({
       ...dto,
       password,
     });
@@ -69,8 +68,8 @@ export class AuthService {
   private async generateToken(
     dto: GenerateTokenRequestDto,
   ): Promise<GenerateTokenResponseDto> {
-    const {id, login, roles} = dto;
-    const token = this.jwtService.sign({login, id, roles});
+    const { id, login, roles } = dto;
+    const token = this.jwtService.sign({ login, id, roles });
 
     return {
       token: plainToInstance(AuthModel, token),
@@ -80,8 +79,8 @@ export class AuthService {
   private async validateUser(
     dto: ValidateUserRequestDto,
   ): Promise<ValidateUserResponseDto> {
-    const {login, password} = dto;
-    const {user} = await this.userService.getOneByLogin({login});
+    const { login, password } = dto;
+    const { user } = await this.userService.getOneByLogin({ login });
     const isPasswordEqual = await bcryptjs.compare(
       password,
       user?.password || "",

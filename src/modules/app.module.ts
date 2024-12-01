@@ -1,14 +1,15 @@
-import {APP_FILTER} from "@nestjs/core";
-import {ConfigModule} from "@nestjs/config";
-import {Logger, Module} from "@nestjs/common";
-import {S3Module} from "nestjs-s3";
+import { APP_FILTER } from "@nestjs/core";
+import { ConfigModule } from "@nestjs/config";
+import { Logger, Module } from "@nestjs/common";
+import { S3Module } from "nestjs-s3";
 
-import {UserModule} from "@modules/user/user.module";
-import {RoleModule} from "@modules/role/role.module";
-import {AuthModule} from "@modules/auth/auth.module";
-import {HttpExceptionFilter} from "@helpers/httpExceptionFilter.helper";
-import {S3OwnModule} from "@modules/s3/s3.module";
-import {configHelper} from "@helpers/config.helper";
+import { UserModule } from "@modules/user/user.module";
+import { RoleModule } from "@modules/role/role.module";
+import { AuthModule } from "@modules/auth/auth.module";
+import { HttpExceptionFilter } from "@helpers/httpExceptionFilter.helper";
+import { S3OwnModule } from "@modules/s3/s3.module";
+import { configHelper } from "@helpers/config.helper";
+import { CardDeckModule } from "@modules/card-deck/card-deck.module";
 
 @Module({
   imports: [
@@ -30,8 +31,9 @@ import {configHelper} from "@helpers/config.helper";
     AuthModule,
     UserModule,
     RoleModule,
+    CardDeckModule,
     S3OwnModule,
   ],
-  providers: [{provide: APP_FILTER, useClass: HttpExceptionFilter}, Logger],
+  providers: [{ provide: APP_FILTER, useClass: HttpExceptionFilter }, Logger],
 })
 export class AppModule {}
