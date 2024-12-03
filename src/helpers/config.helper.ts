@@ -1,7 +1,7 @@
-import {MongooseModule} from "@nestjs/mongoose";
+import { MongooseModule } from "@nestjs/mongoose";
 
-import {processEnv} from "./processEnv.helper";
-import {DynamicModule} from "@nestjs/common";
+import { processEnv } from "./processEnv.helper";
+import { DynamicModule } from "@nestjs/common";
 
 const {
   DB_BASE_URL,
@@ -17,7 +17,13 @@ const {
 const encodedUsername = encodeURIComponent(DB_LOGIN);
 const encodedPassword = encodeURIComponent(DB_PASSWORD);
 
-export const configHelper = {
+class ConfigHelper {
+  private readonly defaultPort = "8090";
+
+  getServerPort(): string {
+    return processEnv.PORT ?? this.defaultPort;
+  }
+
   getMongooseModule(): DynamicModule {
     return IS_LOCAL === "true"
       ? MongooseModule.forRoot(`mongodb://${MONGODB_HOST_URL}:27017/`, {
@@ -30,5 +36,7 @@ export const configHelper = {
       : MongooseModule.forRoot(
           `${DB_BASE_URL}${encodedUsername}:${encodedPassword}${DB_CLUSTER_URL}`,
         );
-  },
-};
+  }
+}
+
+export const configHelper = new ConfigHelper();

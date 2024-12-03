@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { UserService } from "@modules/user/user.service";
-import bcryptjs from "bcryptjs";
+import * as bcryptjs from "bcryptjs";
 import { JwtService } from "@nestjs/jwt";
 
 import {

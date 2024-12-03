@@ -36,7 +36,7 @@ export class UserEntity implements IUserEntity {
   @Prop({ type: String, required: true })
   readonly password: string;
 
-  @Prop({ type: Array<IRoleModel>, required: true })
+  @Prop({ type: Array, required: true })
   readonly roles: Array<IRoleModel>;
 
   @Prop({ type: String })
