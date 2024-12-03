@@ -4,12 +4,12 @@ import { randomUUID } from "crypto";
 import { plainToInstance } from "class-transformer";
 import { InjectModel } from "@nestjs/mongoose";
 
-import { IUserEntity } from "@schemas/user.schema";
 import {
+  IUserEntity,
   CardDeckDocument,
   CardDeckEntity,
   ICardDeckEntity,
-} from "@schemas/card-deck.schema";
+} from "@schemas/index";
 import {
   CreateCardDeckRequestDto,
   CreateCardDeckResponseDto,
@@ -18,12 +18,7 @@ import {
   GetCardDeckRequestDto,
   GetCardDeckResponseDto,
 } from "@modules/card-deck/dto/get-card-decks.dto";
-import {
-  CardDeckModel,
-  ICardDeckModel,
-} from "@modules/card-deck/models/card-deck.model";
-import { UserModel } from "@modules/user/models/user.model";
-import { IUserModel } from "@interfaces/models/user.model";
+import { CardDeckModel, ICardDeckModel } from "@models/card-deck.model";
 import {
   UpdateCardDeckRequestDto,
   UpdateCardDeckResponseDto,

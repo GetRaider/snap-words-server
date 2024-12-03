@@ -1,7 +1,8 @@
-import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
-import {Document} from "mongoose";
-import {v4 as uuidv4} from "uuid";
-import {Role} from "@interfaces/enums/roles.enums";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
+import { v4 as uuidv4 } from "uuid";
+
+import { Role } from "@constants/roles.constants";
 
 export type RoleDocument = IRoleEntity & Document;
 
@@ -16,7 +17,7 @@ export interface IRoleEntity {
   autoCreate: true,
   versionKey: false,
   strict: false,
-  timestamps: {createdAt: true, updatedAt: true},
+  timestamps: { createdAt: true, updatedAt: true },
 })
 export class RoleEntity implements IRoleEntity {
   @Prop({
@@ -26,10 +27,10 @@ export class RoleEntity implements IRoleEntity {
   })
   readonly _id: string;
 
-  @Prop({type: String})
+  @Prop({ type: String })
   readonly value: Role;
 
-  @Prop({type: String, required: false})
+  @Prop({ type: String, required: false })
   readonly description?: string;
 }
 

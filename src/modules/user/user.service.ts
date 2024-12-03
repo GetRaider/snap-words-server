@@ -1,13 +1,12 @@
-import {HttpException, HttpStatus, Injectable, Logger} from "@nestjs/common";
-import {FilterQuery, Model} from "mongoose";
-import {randomUUID} from "crypto";
-import {plainToInstance} from "class-transformer";
-import {InjectModel} from "@nestjs/mongoose";
+import { HttpException, HttpStatus, Injectable, Logger } from "@nestjs/common";
+import { FilterQuery, Model } from "mongoose";
+import { randomUUID } from "crypto";
+import { plainToInstance } from "class-transformer";
+import { InjectModel } from "@nestjs/mongoose";
 import bcryptjs from "bcryptjs";
 
-import {IUserEntity, UserDocument, UserEntity} from "@schemas/user.schema";
-import {UserModel} from "@modules/user/models/user.model";
-import {IUserModel} from "@interfaces/models/user.model";
+import { IUserEntity, UserDocument, UserEntity } from "@schemas/user.schema";
+import { UserModel, IUserModel } from "@models/index";
 import {
   GetUsersRequestDto,
   GetUsersResponseDto,
@@ -24,11 +23,11 @@ import {
   GetUserByLoginRequestDto,
   GetUserByLoginResponseDto,
 } from "@modules/user/dto/get-user-by-login.dto";
-import {RoleService} from "@modules/role/role.service";
-import {processEnv} from "@helpers/processEnv.helper";
-import {rolesIds} from "@constants/roles.constants";
+import { RoleService } from "@modules/role/role.service";
+import { processEnv } from "@helpers/processEnv.helper";
+import { rolesIds } from "@constants/roles.constants";
 
-const {IS_LOCAL} = processEnv;
+const { IS_LOCAL } = processEnv;
 
 @Injectable()
 export class UserService {
@@ -43,9 +42,15 @@ export class UserService {
     const foundRolesDocument = await this.roleService.getByQuery({
       id: [IS_LOCAL === "true" ? rolesIds.localDefault : rolesIds.devDefault],
     });
-    const {login, password, roles = foundRolesDocument.roles, name, age} = dto;
+    const {
+      login,
+      password,
+      roles = foundRolesDocument.roles,
+      name,
+      age,
+    } = dto;
     const encryptedPassword = await bcryptjs.hash(password, 5);
-    const foundDocument = await this.getOneByLogin({login});
+    const foundDocument = await this.getOneByLogin({ login });
 
     if (foundDocument.user) {
       throw new HttpException(
@@ -83,11 +88,11 @@ export class UserService {
     } = query;
 
     const filterQuery: FilterQuery<IUserEntity> = {
-      ...(idArr ? {_id: {$in: idArr}} : {}),
-      ...(loginArr ? {login: {$in: loginArr}} : {}),
-      ...(nameArr ? {name: {$in: nameArr}} : {}),
-      ...(ageArr ? {age: {$in: ageArr}} : {}),
-      ...(rolesArr ? {roles: {$in: rolesArr}} : {}),
+      ...(idArr ? { _id: { $in: idArr } } : {}),
+      ...(loginArr ? { login: { $in: loginArr } } : {}),
+      ...(nameArr ? { name: { $in: nameArr } } : {}),
+      ...(ageArr ? { age: { $in: ageArr } } : {}),
+      ...(rolesArr ? { roles: { $in: rolesArr } } : {}),
     };
 
     const foundDocuments = await this.userModel.find(filterQuery);
@@ -101,8 +106,8 @@ export class UserService {
   async getOneByLogin(
     dto: GetUserByLoginRequestDto,
   ): Promise<GetUserByLoginResponseDto> {
-    const {login} = dto;
-    const foundDocument = await this.userModel.findOne({login});
+    const { login } = dto;
+    const foundDocument = await this.userModel.findOne({ login });
 
     return {
       user: plainToInstance(UserModel, foundDocument?.toJSON<IUserModel>()),
@@ -127,6 +132,6 @@ export class UserService {
   }
 
   async deleteAll(): Promise<void> {
-    await this.userModel.deleteMany({login: {$gte: "@gmail"}});
+    await this.userModel.deleteMany({ login: { $gte: "@gmail" } });
   }
 }

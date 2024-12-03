@@ -4,10 +4,11 @@ import {
   Injectable,
   Logger,
 } from "@nestjs/common";
-import {Observable} from "rxjs";
-import {Reflector} from "@nestjs/core";
-import {Role} from "@interfaces/enums/roles.enums";
-import {IRoleModel} from "@interfaces/models/role.model";
+import { Observable } from "rxjs";
+import { Reflector } from "@nestjs/core";
+
+import { IRoleModel } from "@models/index";
+import { Role } from "@constants/roles.constants";
 
 @Injectable()
 export class RoleGuard implements CanActivate {
@@ -33,7 +34,7 @@ export class RoleGuard implements CanActivate {
 
       return this.matchRoles(requiredRoles, request.user.roles);
     } catch (error) {
-      this.logger.error({error: error.message}, "Failed to auth by roles");
+      this.logger.error({ error: error.message }, "Failed to auth by roles");
       throw new Error(error);
     }
   }

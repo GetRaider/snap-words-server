@@ -12,7 +12,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 
-import {UserService} from "@modules/user/user.service";
+import { UserService } from "@modules/user/user.service";
 import {
   CreateUserRequestDto,
   CreateUserResponseDto,
@@ -25,10 +25,7 @@ import {
   UpdateUserRequestDto,
   UpdateUserResponseDto,
 } from "@modules/user/dto/update-user.dto";
-import {AuthGuard} from "@modules/auth/auth.guard";
-import {Roles} from "@modules/role/decorators/role.decorator";
-import {Role} from "@interfaces/enums/roles.enums";
-import {RoleGuard} from "@modules/role/role.guard";
+import { AuthGuard } from "@modules/auth/auth.guard";
 
 @Controller("/users")
 export class UserController {

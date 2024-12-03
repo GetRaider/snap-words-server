@@ -37,6 +37,9 @@
       ],
       "@schemas/*": [
         "./src/schemas/*"
+      ],
+      "@models/*": [
+        "./src/models/*"
       ]
     }
   }
