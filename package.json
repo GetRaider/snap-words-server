@@ -1,21 +1,17 @@
 {
   "name": "snap-words-server",
   "version": "1.0.0",
-  "description": "",
-  "author": "",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
     "prepare": "husky install",
-    "prebuild": "rimraf dist",
-    "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "start": "ts-node src/main.ts",
     "start:dev": "nodemon",
+    "recompile": "rm -rf .tsbuildinfo && tsc",
+    "codeCheck": "tsc && npm run lint",
     "lint": "eslint 'src/**/*.{js,ts}' --fix",
     "lint:staged": "eslint '*.ts' --fix",
-    "codeCheck": "tsc && npm run lint",
-    "recompile": "rm -rf dist && tsc"
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
   },
   "dependencies": {
     "@nestjs/common": "9.0.0",
@@ -23,7 +19,6 @@
     "@nestjs/core": "9.0.0",
     "@nestjs/platform-express": "9.0.0",
     "reflect-metadata": "0.1.13",
-    "rimraf": "3.0.2",
     "rxjs": "7.2.0"
   },
   "devDependencies": {
@@ -62,6 +57,9 @@
     "typescript": "4.3.5",
     "uuid": "11.0.3"
   },
+  "lint-staged": {
+    "*.ts": "eslint 'src/**/*.ts' --fix"
+  },
   "jest": {
     "moduleFileExtensions": [
       "js",
@@ -78,8 +76,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "lint-staged": {
-    "*.ts": "eslint 'src/**/*.ts' --fix"
   }
 }

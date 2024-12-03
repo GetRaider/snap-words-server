@@ -17,7 +17,7 @@
     "strict": false,
     "noImplicitAny": false,
     "declaration": false,
-    "noEmit": false,
+    "noEmit": true,
     "noEmitOnError": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -30,6 +30,7 @@
     "experimentalDecorators": true,
     "incremental": true
   },
+  "ts-node": { "require": ["tsconfig-paths/register"] },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
