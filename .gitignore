@@ -7,6 +7,7 @@
 .local.env
 .dev.env
 package-lock.json
+.tsbuildinfo
 
 # Logs
 logs
