@@ -7,15 +7,24 @@ import {
 import { Type } from "class-transformer";
 
 import { UserModel, RoleModel, IUserModel } from "@models/index";
+import {
+  BaseRequestDto,
+  BaseResponseDto,
+  IBaseRequestDto,
+  IBaseResponseDto,
+} from "@modules/base/base.service";
 
-export interface ICreateUserRequestDto {
+export interface ICreateUserRequestDto extends IBaseRequestDto {
   readonly login: string;
   readonly password: string;
   readonly name?: string;
   readonly age?: number;
 }
 
-export class CreateUserRequestDto implements ICreateUserRequestDto {
+export class CreateUserRequestDto
+  extends BaseRequestDto
+  implements ICreateUserRequestDto
+{
   @IsString()
   readonly login: string;
 
@@ -33,11 +42,14 @@ export class CreateUserRequestDto implements ICreateUserRequestDto {
   readonly age?: number;
 }
 
-export interface ICreateUserResponseDto {
+export interface ICreateUserResponseDto extends IBaseResponseDto {
   readonly user: IUserModel;
 }
 
-export class CreateUserResponseDto implements ICreateUserResponseDto {
+export class CreateUserResponseDto
+  extends BaseResponseDto
+  implements ICreateUserResponseDto
+{
   @IsObject()
   @Type(() => UserModel)
   @ValidateNested()

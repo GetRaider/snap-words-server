@@ -6,7 +6,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import bcryptjs from "bcryptjs";
 
 import { IUserEntity, UserDocument, UserEntity } from "@schemas/user.schema";
-import { UserModel, IUserModel } from "@models/index";
+import { UserModel, IUserModel, RoleModel } from "@models/index";
 import {
   GetUsersRequestDto,
   GetUsersResponseDto,
@@ -26,17 +26,22 @@ import {
 import { RoleService } from "@modules/role/role.service";
 import { processEnv } from "@helpers/processEnv.helper";
 import { rolesIds } from "@constants/roles.constants";
+import { BaseService } from "@modules/base/base.service";
+import { IsOptional, IsString } from "class-validator";
+import { CreateRoleRequestDto } from "@modules/role/dto/create-role.dto";
 
 const { IS_LOCAL } = processEnv;
 
 @Injectable()
-export class UserService {
+export class UserService extends BaseService {
   constructor(
     @InjectModel(UserEntity.name)
     private readonly userModel: Model<UserDocument>,
     private readonly logger: Logger,
     private readonly roleService: RoleService,
-  ) {}
+  ) {
+    super();
+  }
 
   async create(dto: CreateUserRequestDto): Promise<CreateUserResponseDto> {
     const foundRolesDocument = await this.roleService.getByQuery({

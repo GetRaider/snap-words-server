@@ -19,6 +19,7 @@
     "declaration": false,
     "noEmit": true,
     "noEmitOnError": false,
+    "strictFunctionTypes": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
