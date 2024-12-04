@@ -1,21 +1,16 @@
 # compiled output
-/dist
 /node_modules
-/kms
 /mongo
 .env
 .local.env
 .dev.env
 package-lock.json
+.tsbuildinfo
 
 # Logs
 logs
-*.log
 npm-debug.log*
 pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
 
 # OS
 .DS_Store
@@ -26,9 +21,6 @@ lerna-debug.log*
 
 # IDEs and editors
 /.idea
-.project
-.classpath
-.c9/
 *.launch
 .settings/
 *.sublime-workspace

@@ -1,46 +1,36 @@
 {
   "compilerOptions": {
-    "lib": [
-      "ES2020"
-    ],
-    "module": "commonjs",
+    "lib": ["ESNext"],
+    "module": "Commonjs",
     "target": "ES2020",
     "moduleResolution": "node",
+    "types": ["node"],
+    "tsBuildInfoFile": "./.tsbuildinfo",
+    "paths": {
+      "@constants/*": ["./src/constants/*"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@schemas/*": ["./src/schemas/*"],
+      "@models/*": ["./src/models/*"]
+    },
+    "allowJs": false,
     "strict": false,
+    "noImplicitAny": false,
+    "declaration": false,
+    "noEmit": true,
+    "noEmitOnError": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false,
-    "allowJs": true,
-    "declaration": false,
     "removeComments": true,
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "incremental": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "paths": {
-      "@constants/*": [
-        "./src/constants/*"
-      ],
-      "@helpers/*": [
-        "./src/helpers/*"
-      ],
-      "@interfaces/*": [
-        "./src/interfaces/*"
-      ],
-      "@modules/*": [
-        "./src/modules/*"
-      ],
-      "@schemas/*": [
-        "./src/schemas/*"
-      ],
-      "@models/*": [
-        "./src/models/*"
-      ]
-    }
-  }
+    "incremental": true
+  },
+  "ts-node": { "require": ["tsconfig-paths/register"] },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
